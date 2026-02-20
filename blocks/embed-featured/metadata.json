@@ -1,0 +1,39 @@
+{
+  "variantName": "embed-featured",
+  "baseBlock": "embed",
+  "version": "1.0.0",
+  "created": "2026-02-19T19:23:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/",
+    "originPage": "RAF Recruitment homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "featured-video",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "poster image + video URL",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured YouTube video sections",
+      "video content with poster images",
+      "promotional video embeds"
+    ],
+    "notSuitableFor": [
+      "social media embeds",
+      "inline video references",
+      "multi-video galleries"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-19T19:23:00.000Z"
+  }
+}

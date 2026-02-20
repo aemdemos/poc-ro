@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-cta",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-02-19T19:23:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/",
+    "originPage": "RAF Recruitment homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "feature-cta",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + paragraph + CTA link + image",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "feature highlight sections with image and CTA",
+      "two-column text + image layouts",
+      "promotional panels with call to action"
+    ],
+    "notSuitableFor": [
+      "multi-column data layouts",
+      "text-only column layouts",
+      "card grid layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-19T19:23:00.000Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "templates": [
+    {
+      "name": "raf-homepage",
+      "urls": ["https://recruitment.raf.mod.uk/"],
+      "description": "RAF Recruitment homepage with hero video, video embed, dual-panel CTA sections, text sections, and contact banner",
+      "blocks": [
+        {
+          "name": "hero-video",
+          "instances": [".hero-container"]
+        },
+        {
+          "name": "embed-featured",
+          "instances": [".videosingle"]
+        },
+        {
+          "name": "columns-cta",
+          "instances": [".dual-panel-section"]
+        },
+        {
+          "name": "section-diversity",
+          "section": "dark",
+          "instances": [".singlepanel-section"]
+        },
+        {
+          "name": "section-contact",
+          "section": "dark",
+          "instances": [".banner-container"]
+        }
+      ]
+    }
+  ]
+}
