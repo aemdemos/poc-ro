@@ -1,0 +1,62 @@
+.embed-featured {
+  width: unset;
+  text-align: center;
+  max-width: 800px;
+  margin: 32px auto;
+}
+
+.embed-featured > div {
+  display: flex;
+  justify-content: center;
+}
+
+.embed-featured.embed-featured-twitter .twitter-tweet-rendered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.embed-featured .embed-featured-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+.embed-featured .embed-featured-placeholder > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+}
+
+.embed-featured .embed-featured-placeholder picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.embed-featured .embed-featured-placeholder-play button {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(3);
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  border-radius: 20px;
+  padding: 0;
+}
+
+.embed-featured .embed-featured-placeholder-play button::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 0;
+  height: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid;
+  top: 4px;
+  left: 7px;
+}

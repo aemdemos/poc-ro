@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-video",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-02-19T19:23:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/",
+    "originPage": "RAF Recruitment homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "landing-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + body text",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "landing pages with background video or image",
+      "campaign pages with bold hero statements",
+      "homepage hero sections"
+    ],
+    "notSuitableFor": [
+      "text-only hero sections",
+      "hero sections with multiple CTAs",
+      "minimal blog post headers"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-19T19:23:00.000Z"
+  }
+}
