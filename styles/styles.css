@@ -20,6 +20,10 @@
   --link-hover-color: #1d3ecf;
   --overlay-background-color:lightgrey;
 
+  /* RAF brand colors */
+  --color-raf-background: rgb(205 225 255);
+  --color-raf-darkblue: rgb(0 59 116);
+
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
   --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
@@ -119,6 +123,7 @@ h6 {
   font-weight: 600;
   line-height: 1.25;
   scroll-margin: 40px;
+  text-transform: uppercase;
 }
 
 h1 { font-size: var(--heading-font-size-xxl); }
@@ -263,4 +268,28 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+/* italic rotated headings for apprenticeships and diversity sections */
+main .section.apprenticeships h1,
+main .section.apprenticeships h2,
+main .section.apprenticeships h3,
+main .section.apprenticeships h4,
+main .section.apprenticeships h5,
+main .section.apprenticeships h6,
+main .section.diversity h1,
+main .section.diversity h2,
+main .section.diversity h3,
+main .section.diversity h4,
+main .section.diversity h5,
+main .section.diversity h6 {
+  font-style: italic;
+  transform: rotate(-11deg);
+}
+
+/* override for apprenticeships h3 - no uppercase, no rotation, no italic */
+main .section.apprenticeships h3 {
+  text-transform: none;
+  transform: none;
+  font-style: normal;
 }
