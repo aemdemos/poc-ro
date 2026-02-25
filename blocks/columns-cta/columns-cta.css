@@ -9,6 +9,9 @@
 
 .columns-cta > div > div {
   order: 1;
+  background-color: var(--color-raf-background);
+  color: var(--color-raf-darkblue);
+  padding: 24px;
 }
 
 .columns-cta > div > .columns-cta-img-col {
@@ -17,6 +20,43 @@
 
 .columns-cta > div > .columns-cta-img-col img {
   display: block;
+}
+
+/* Italic and rotated headings - 11 degrees counterclockwise */
+.columns-cta h1,
+.columns-cta h2,
+.columns-cta h3,
+.columns-cta h4,
+.columns-cta h5,
+.columns-cta h6 {
+  font-style: italic;
+  transform: rotate(-11deg);
+  color: var(--color-raf-darkblue);
+}
+
+/* CTA arrow icon */
+.columns-cta a.columns-cta-arrow {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 8px 0 0;
+  border: none;
+  background: none;
+  text-decoration: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.columns-cta a.columns-cta-arrow img {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
+.columns-cta a.columns-cta-arrow:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+  text-decoration: none;
 }
 
 @media (width >= 900px) {

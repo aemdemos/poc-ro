@@ -1,5 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export default function decorate(block) {
-  if (!block.querySelector(':scope > div:first-child picture')) {
-    block.classList.add('no-image');
-  }
+  // hero-video uses CSS-only decoration
 }
