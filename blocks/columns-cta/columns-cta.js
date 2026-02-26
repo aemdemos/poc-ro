@@ -21,6 +21,8 @@ export default function decorate(block) {
         if (linkParent) {
           link.setAttribute('aria-label', link.textContent.trim());
           link.classList.add('columns-cta-arrow');
+          link.classList.remove('button');
+          linkParent.classList.remove('button-container');
           link.innerHTML = '<img src="/icons/cta-arrow.svg" alt="" loading="lazy">';
         }
       });

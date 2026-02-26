@@ -1,6 +1,9 @@
+/* Full-bleed CTA panels matching RAF recruitment dual-panel layout */
 .columns-cta > div {
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .columns-cta img {
@@ -11,15 +14,23 @@
   order: 1;
   background-color: var(--color-raf-background);
   color: var(--color-raf-darkblue);
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 400px;
 }
 
 .columns-cta > div > .columns-cta-img-col {
   order: 0;
+  overflow: hidden;
 }
 
 .columns-cta > div > .columns-cta-img-col img {
   display: block;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Italic and rotated headings - 11 degrees counterclockwise */
@@ -30,17 +41,30 @@
 .columns-cta h5,
 .columns-cta h6 {
   font-style: italic;
+  font-weight: 900;
   transform: rotate(-11deg);
   color: var(--color-raf-darkblue);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 0;
+}
+
+/* Body text */
+.columns-cta p {
+  color: var(--color-raf-darkblue);
+  font-size: 16px;
+  line-height: 27px;
+  margin: 24px 40px 16px;
+  text-align: center;
 }
 
 /* CTA arrow icon */
 .columns-cta a.columns-cta-arrow {
   display: inline-block;
-  width: 48px;
-  height: 48px;
+  width: 67px;
+  height: 67px;
   padding: 0;
-  margin: 8px 0 0;
+  margin: 16px 0 0;
   border: none;
   background: none;
   text-decoration: none;
@@ -48,8 +72,8 @@
 }
 
 .columns-cta a.columns-cta-arrow img {
-  width: 48px;
-  height: 48px;
+  width: 67px;
+  height: 67px;
   display: block;
 }
 
@@ -59,15 +83,39 @@
   text-decoration: none;
 }
 
+/* Remove section constraints for full-bleed layout */
+.section.columns-cta-container {
+  margin: 0;
+}
+
+.section.columns-cta-container > div {
+  max-width: unset;
+  padding: 0;
+}
+
+/* Desktop: side-by-side equal panels, DOM order determines layout */
 @media (width >= 900px) {
   .columns-cta > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    flex-direction: row;
+    min-height: 500px;
   }
 
   .columns-cta > div > div {
-    flex: 1;
+    flex: 1 1 50%;
     order: unset;
+    min-height: unset;
+  }
+
+  .columns-cta > div > .columns-cta-img-col {
+    order: unset;
+  }
+
+  .columns-cta h3 {
+    font-size: 55px;
+    line-height: 55px;
+  }
+
+  .columns-cta p {
+    margin: 40px 65px 16px;
   }
 }
