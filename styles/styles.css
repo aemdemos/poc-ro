@@ -25,6 +25,7 @@
   /* RAF brand colors */
   --color-raf-background: rgb(205 225 255);
   --color-raf-darkblue: rgb(0 59 116);
+  --color-raf-cta-blue: #1d6ee9;
 
   /* fonts */
   --body-font-family: "Montserrat", arial, helvetica, sans-serif;
@@ -302,6 +303,8 @@ main .section.dark h4 {
 
 main .section.dark p {
   color: var(--color-white);
+  font-size: 14px;
+  line-height: 22px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -319,6 +322,16 @@ main .section.dark a.button:any-link {
 main .section.dark a.button:hover {
   background-color: var(--color-white);
   color: var(--color-brand-primary);
+}
+
+main .section.dark h2 {
+  font-style: italic;
+  margin: 0 0 48px;
+}
+
+main .section.dark .button-container {
+  display: inline-block;
+  margin: 0 6px;
 }
 
 /* section metadata: light variant */
@@ -346,11 +359,78 @@ main .section.diversity h6 {
   transform: rotate(-11deg);
 }
 
+main .section.apprenticeships {
+  padding-top: 60px;
+}
+
+main .section.apprenticeships h2 {
+  text-align: center;
+  margin: 140px 0 200px;
+}
+
+/* full-width video embed in apprenticeships section */
+main .section.apprenticeships .embed-featured-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+main .section.apprenticeships .embed-featured {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
 /* override for apprenticeships h3 - no uppercase, no rotation, no italic */
 main .section.apprenticeships h3 {
   text-transform: none;
   transform: none;
   font-style: normal;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 29px;
+  margin: 40px 0 8px;
+}
+
+/* apprenticeships CTA button - blue filled pill */
+main .section.apprenticeships .button-container {
+  text-align: center;
+  padding: 120px 0 68px;
+  margin: 0;
+}
+
+main .section.apprenticeships a.button:any-link {
+  background-color: var(--color-raf-cta-blue);
+  border-color: var(--color-raf-cta-blue);
+  color: var(--color-white);
+}
+
+main .section.apprenticeships a.button:hover {
+  background-color: var(--color-white);
+  border-color: var(--color-raf-cta-blue);
+  color: var(--color-raf-cta-blue);
+}
+
+/* diversity section - circle arrow icon link */
+main .section.diversity .button-container {
+  text-align: center;
+  margin: 0;
+}
+
+main .section.diversity a.button:any-link {
+  display: inline-block;
+  width: 67px;
+  height: 67px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: url('/icons/right-arrow-white.svg') no-repeat center / contain;
+  font-size: 0;
+  color: transparent;
+  overflow: hidden;
+}
+
+main .section.diversity a.button:hover {
+  background-color: transparent;
+  opacity: 0.8;
 }
 
 main .section.light h2,
