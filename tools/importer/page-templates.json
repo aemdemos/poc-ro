@@ -3,7 +3,7 @@
     {
       "name": "raf-homepage",
       "urls": ["https://recruitment.raf.mod.uk/"],
-      "description": "RAF Recruitment homepage with hero video, video embed, dual-panel CTA sections, text sections, and contact banner",
+      "description": "RAF Recruitment homepage with hero video, apprenticeships video embed, dual-panel CTA sections, diversity text section, and contact banner",
       "blocks": [
         {
           "name": "hero-video",
@@ -11,7 +11,9 @@
         },
         {
           "name": "embed-featured",
-          "instances": [".videosingle"]
+          "section": "apprenticeships",
+          "instances": [".videosingle"],
+          "notes": "Parser also extracts h2 heading, h3 subtitle, description text, and CTA link from within .videosingle and adjacent .apprenticeships-cta-container. Section style 'apprenticeships' applies italic rotated h2, full-width embed, and custom h3/button styling."
         },
         {
           "name": "columns-cta",
@@ -19,13 +21,15 @@
         },
         {
           "name": "section-diversity",
-          "section": "dark",
-          "instances": [".singlepanel-section"]
+          "section": "dark, diversity",
+          "instances": [".singlepanel-section"],
+          "notes": "Section style 'diversity' applies italic rotated headings and renders the CTA link as a 67px circle arrow icon via CSS background-image."
         },
         {
           "name": "section-contact",
           "section": "dark",
-          "instances": [".banner-container"]
+          "instances": [".banner-container"],
+          "notes": "Dark section with centered heading, subtitle, and two CTA buttons (Live Chat + Contact Us) displayed side-by-side."
         }
       ]
     }

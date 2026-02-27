@@ -7,6 +7,8 @@
  * Applies to: recruitment.raf.mod.uk (all templates)
  * Tested: /
  * Generated: 2026-02-19
+ * Updated: 2026-02-27 - Added cleanup for diversity section decorative elements,
+ *   banner section navigation elements, and livechat script artifacts
  *
  * SELECTORS EXTRACTED FROM:
  * - Captured DOM during migration workflow of https://recruitment.raf.mod.uk/
@@ -29,6 +31,7 @@ export default function transform(hookName, element, payload) {
 
     // Remove arrow icons from CTA links (decorative SVG images)
     // EXTRACTED: Found <img src="/assets/img/right-arrow-blue.svg"> in captured DOM
+    // Also removes right-arrow-white.svg from diversity section (icon handled via CSS background)
     const arrowImgs = element.querySelectorAll('img[src*="right-arrow"], img[src*="chevron-right"], img[src*="livechat.svg"]');
     arrowImgs.forEach((img) => img.remove());
 
@@ -39,6 +42,13 @@ export default function transform(hookName, element, payload) {
     // Remove Cloudflare video iframe (background hero video)
     // EXTRACTED: Found <iframe id="CloudflarePlayer" src="https://iframe.videodelivery.net/..."> in captured DOM
     WebImporter.DOMUtils.remove(element, ['#CloudflarePlayer', '.cloudflare-player']);
+
+    // Remove livechat widget elements (injected by JS on the source site)
+    // EXTRACTED: Found livechat overlay containers in banner section
+    WebImporter.DOMUtils.remove(element, ['.livechat-container', '.chat-widget', '#livechat-widget']);
+
+    // Remove cookie consent banners and modal overlays
+    WebImporter.DOMUtils.remove(element, ['.cookie-banner', '.cookie-consent', '#cookie-notice']);
   }
 
   if (hookName === TransformHook.afterTransform) {
@@ -47,6 +57,7 @@ export default function transform(hookName, element, payload) {
       'iframe',
       'link',
       'noscript',
+      'script',
     ]);
 
     // Clean up data attributes used for JS behavior
@@ -58,6 +69,8 @@ export default function transform(hookName, element, payload) {
       el.removeAttribute('data-link');
       el.removeAttribute('data-videoloopcount');
       el.removeAttribute('data-screenreadertitle');
+      el.removeAttribute('data-livechat');
+      el.removeAttribute('data-analytics');
     });
   }
 }
