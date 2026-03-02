@@ -10,8 +10,8 @@ header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
+    'brand tools hamburger' var(--nav-height)
+    'sections sections sections' 1fr / 1fr auto auto;
   align-items: center;
   gap: 0 24px;
   margin: auto;
@@ -23,9 +23,9 @@ header nav {
 
 header nav[aria-expanded='true'] {
   grid-template:
-    'hamburger brand' var(--nav-height)
+    'brand hamburger' var(--nav-height)
     'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
+    'tools tools' var(--nav-height) / 1fr auto;
   overflow-y: auto;
   min-height: 100dvh;
 }
@@ -144,6 +144,12 @@ header .nav-brand {
   line-height: 1;
 }
 
+header nav .nav-brand ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
 header nav .nav-brand img {
   width: 128px;
   height: auto;
@@ -220,6 +226,7 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections ul {
     display: flex;
+    justify-content: flex-end;
     gap: 24px;
     margin: 0;
   }
@@ -266,6 +273,20 @@ header nav .nav-sections ul > li > ul > li {
 /* tools */
 header nav .nav-tools {
   grid-area: tools;
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  header nav .nav-tools {
+    text-align: initial;
+  }
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-tools ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 header nav .nav-tools .button {
@@ -274,6 +295,93 @@ header nav .nav-tools .button {
   padding: 0.5em;
   background: none;
   line-height: 0;
+}
+
+/* tools toggle button */
+header nav .nav-tools-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: currentcolor;
+  font-size: var(--body-font-size-s);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* tools chevron */
+header nav .nav-tools-chevron {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentcolor;
+  border-width: 2px 2px 0 0;
+  transform: rotate(135deg);
+  transition: transform 0.2s ease;
+  position: relative;
+  top: -2px;
+}
+
+header nav .nav-tools-toggle[aria-expanded='true'] .nav-tools-chevron {
+  transform: rotate(315deg);
+  top: 2px;
+}
+
+/* tools dropdown panel */
+header .nav-tools-panel {
+  display: none;
+  background-color: #003b74;
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px 32px;
+  width: 100%;
+}
+
+header .nav-tools-panel[aria-hidden='false'] {
+  display: block;
+}
+
+header .nav-tools-panel-heading {
+  font-size: 48px;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+  line-height: 1.1;
+}
+
+header .nav-tools-panel-subtitle {
+  font-size: 16px;
+  margin: 0 0 32px;
+  opacity: 0.9;
+}
+
+header .nav-tools-panel-actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+header .nav-tools-panel-btn {
+  display: inline-block;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 160px;
+  padding: 16px 32px;
+  font-size: 20px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  min-width: 160px;
+}
+
+header .nav-tools-panel-btn:hover {
+  background-color: #fff;
+  color: #003b74;
 }
 
 /* breadcrumbs */

@@ -222,6 +222,85 @@ export default async function decorate(block) {
     if (search && search.textContent === '') {
       search.setAttribute('aria-label', 'Search');
     }
+
+    // Build tools dropdown (e.g. "Get in touch" panel)
+    const toolsDrop = navTools.querySelector('ul > li > strong');
+    if (toolsDrop) {
+      const dropLi = toolsDrop.closest('li');
+      const dropUl = dropLi.querySelector('ul');
+      if (dropUl) {
+        const label = toolsDrop.textContent.trim();
+
+        // Create toggle button with chevron
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'nav-tools-toggle';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.setAttribute('aria-label', label);
+        toggleBtn.innerHTML = `<span>${label}</span><span class="nav-tools-chevron"></span>`;
+
+        // Build dropdown panel from nested list items
+        const panel = document.createElement('div');
+        panel.className = 'nav-tools-panel';
+        panel.setAttribute('aria-hidden', 'true');
+
+        const items = [...dropUl.children];
+        const heading = items.find((li) => !li.querySelector('a') && !li.previousElementSibling);
+        const subtitle = items.find((li) => !li.querySelector('a') && li.previousElementSibling);
+        const links = items.filter((li) => li.querySelector('a'));
+
+        if (heading) {
+          const h2 = document.createElement('h2');
+          h2.className = 'nav-tools-panel-heading';
+          h2.textContent = heading.textContent.trim();
+          panel.append(h2);
+        }
+        if (subtitle) {
+          const p = document.createElement('p');
+          p.className = 'nav-tools-panel-subtitle';
+          p.textContent = subtitle.textContent.trim();
+          panel.append(p);
+        }
+        if (links.length) {
+          const btnContainer = document.createElement('div');
+          btnContainer.className = 'nav-tools-panel-actions';
+          links.forEach((li) => {
+            const a = li.querySelector('a').cloneNode(true);
+            a.className = 'nav-tools-panel-btn';
+            btnContainer.append(a);
+          });
+          panel.append(btnContainer);
+        }
+
+        // Toggle handler
+        toggleBtn.addEventListener('click', () => {
+          const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+          toggleBtn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          panel.setAttribute('aria-hidden', expanded ? 'true' : 'false');
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+          if (!toggleBtn.contains(e.target) && !panel.contains(e.target)) {
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            panel.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        // Replace original content
+        dropLi.textContent = '';
+        dropLi.append(toggleBtn);
+
+        // Append panel to nav-wrapper (full-width below header)
+        const appendPanel = () => {
+          const wrapper = nav.closest('.nav-wrapper');
+          if (wrapper && !wrapper.contains(panel)) {
+            wrapper.append(panel);
+          }
+        };
+        // Defer to ensure wrapper exists
+        requestAnimationFrame(appendPanel);
+      }
+    }
   }
 
   // hamburger for mobile
