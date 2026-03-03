@@ -224,7 +224,8 @@ export default async function decorate(block) {
     }
 
     // Build tools dropdown (e.g. "Get in touch" panel)
-    const toolsDrop = navTools.querySelector('ul > li > strong');
+    // Support both direct <li><strong> (local) and <li><p><strong> (published AEM)
+    const toolsDrop = navTools.querySelector('ul > li > strong') || navTools.querySelector('ul > li > p > strong');
     if (toolsDrop) {
       const dropLi = toolsDrop.closest('li');
       const dropUl = dropLi.querySelector('ul');
