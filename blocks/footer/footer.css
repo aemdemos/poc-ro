@@ -176,6 +176,7 @@ footer .footer-col:nth-child(4) p:not(:first-child) img {
   }
 
   footer .footer-col:nth-child(4) {
+    flex-flow: column nowrap;
     align-items: flex-end;
     gap: 20px;
     padding: 0;
@@ -184,7 +185,6 @@ footer .footer-col:nth-child(4) p:not(:first-child) img {
 
   footer .footer-col:nth-child(4) p:first-child {
     flex-basis: auto;
-    justify-content: flex-end;
     margin-bottom: 0;
   }
 
