@@ -113,9 +113,10 @@ footer .footer-col:first-child li:nth-child(-n+4) a {
 footer .footer-col:nth-child(4) {
   grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 48px;
+  gap: 28px;
   padding: 32px 0 44px;
 }
 
@@ -126,6 +127,10 @@ footer .footer-col:nth-child(4) p {
 /* Top 100 badge */
 footer .footer-col:nth-child(4) p:first-child {
   width: 200px;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 footer .footer-col:nth-child(4) p:first-child img {
@@ -135,18 +140,18 @@ footer .footer-col:nth-child(4) p:first-child img {
 }
 
 /* Social media links */
-footer .footer-col:nth-child(4) p:last-child {
+footer .footer-col:nth-child(4) p:not(:first-child) {
   display: flex;
   gap: 28px;
   align-items: center;
 }
 
-footer .footer-col:nth-child(4) p:last-child a {
+footer .footer-col:nth-child(4) p:not(:first-child) a {
   display: inline-flex;
   align-items: center;
 }
 
-footer .footer-col:nth-child(4) p:last-child img {
+footer .footer-col:nth-child(4) p:not(:first-child) img {
   width: 32px;
   height: 32px;
 }
@@ -177,7 +182,13 @@ footer .footer-col:nth-child(4) p:last-child img {
     justify-content: space-between;
   }
 
-  footer .footer-col:nth-child(4) p:last-child {
+  footer .footer-col:nth-child(4) p:first-child {
+    flex-basis: auto;
+    justify-content: flex-end;
+    margin-bottom: 0;
+  }
+
+  footer .footer-col:nth-child(4) p:not(:first-child) {
     gap: 32px;
   }
 
