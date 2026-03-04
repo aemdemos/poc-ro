@@ -15,7 +15,7 @@ header nav {
   align-items: center;
   gap: 0 24px;
   margin: auto;
-  max-width: 1248px;
+  max-width: 1440px;
   height: var(--nav-height);
   padding: 0 24px;
   font-family: var(--body-font-family);
@@ -35,7 +35,7 @@ header nav[aria-expanded='true'] {
     display: flex;
     justify-content: space-between;
     gap: 0 32px;
-    max-width: 1264px;
+    max-width: 1440px;
     padding: 0 32px;
   }
 
@@ -138,10 +138,11 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
 /* brand */
 header .nav-brand {
   grid-area: brand;
-  flex-basis: 128px;
+  flex-basis: 89px;
   font-size: var(--heading-font-size-s);
   font-weight: 700;
   line-height: 1;
+  margin: 0 0 0 24px;
 }
 
 header nav .nav-brand ul {
@@ -151,7 +152,7 @@ header nav .nav-brand ul {
 }
 
 header nav .nav-brand img {
-  width: 128px;
+  width: 89px;
   height: auto;
 }
 
@@ -173,6 +174,7 @@ header nav .nav-sections ul {
   list-style: none;
   padding-left: 0;
   font-size: var(--body-font-size-s);
+  text-transform: uppercase;
 }
 
 header nav .nav-sections ul > li {
@@ -310,6 +312,7 @@ header nav .nav-tools-toggle {
   cursor: pointer;
   padding: 0;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 /* tools chevron */
@@ -388,7 +391,7 @@ header .nav-tools-panel-btn:hover {
 header .breadcrumbs {
   display: none;
   margin: auto;
-  max-width: 1248px;
+  max-width: 1440px;
   height: var(--breadcrumbs-height);
   padding: 0 24px;
   font-size: var(--body-font-size-xs);
@@ -424,7 +427,7 @@ header .breadcrumbs ol li[aria-current] {
 @media (width >= 900px) {
   header .breadcrumbs {
     display: block;
-    max-width: 1264px;
+    max-width: 1440px;
     padding: 0 32px;
   }
 }
