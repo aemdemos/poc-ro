@@ -51,7 +51,25 @@ export default async function decorate(block) {
       if (col) {
         const column = document.createElement('div');
         column.className = 'footer-col';
-        column.append(...col.children);
+        if (i === 3) {
+          // 4th column: separate badge and social icons into distinct containers
+          const children = [...col.children];
+          const badge = document.createElement('div');
+          badge.className = 'footer-badge';
+          const social = document.createElement('div');
+          social.className = 'footer-social';
+          children.forEach((child) => {
+            const img = child.querySelector('img');
+            if (img && child.querySelector('a')) {
+              social.append(child);
+            } else {
+              badge.append(child);
+            }
+          });
+          column.append(badge, social);
+        } else {
+          column.append(...col.children);
+        }
         navColumns.append(column);
       }
     }

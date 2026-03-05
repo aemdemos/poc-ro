@@ -103,18 +103,11 @@ footer .footer-bottom p {
   text-align: center;
 }
 
-/* Primary nav links (first 4 items in first column) - uppercase */
-footer .footer-col:first-child li:nth-child(-n+4) a {
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 /* Logos and social section (4th column) - spans full width on mobile */
 footer .footer-col:nth-child(4) {
   grid-column: 1 / -1;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   gap: 28px;
   padding: 32px 0 44px;
@@ -125,35 +118,40 @@ footer .footer-col:nth-child(4) p {
 }
 
 /* Top 100 badge */
-footer .footer-col:nth-child(4) p:first-child {
-  width: 200px;
-  flex-basis: 100%;
+footer .footer-badge {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
 }
 
-footer .footer-col:nth-child(4) p:first-child img {
+footer .footer-badge img {
   width: 200px;
   height: auto;
   display: block;
 }
 
 /* Social media links */
-footer .footer-col:nth-child(4) p:not(:first-child) {
+footer .footer-social {
   display: flex;
+  flex-flow: row wrap;
   gap: 28px;
   align-items: center;
+  justify-content: center;
 }
 
-footer .footer-col:nth-child(4) p:not(:first-child) a {
+footer .footer-social a:any-link {
   display: inline-flex;
   align-items: center;
 }
 
-footer .footer-col:nth-child(4) p:not(:first-child) img {
+footer .footer-social img {
   width: 32px;
   height: 32px;
+}
+
+/* Primary nav links (first 4 items in first column) - uppercase */
+footer .footer-col:first-child li:nth-child(-n+4) a {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 @media (width >= 900px) {
@@ -176,19 +174,12 @@ footer .footer-col:nth-child(4) p:not(:first-child) img {
   }
 
   footer .footer-col:nth-child(4) {
-    flex-flow: column nowrap;
     align-items: flex-end;
-    gap: 20px;
-    padding: 0;
     justify-content: space-between;
+    padding: 0;
   }
 
-  footer .footer-col:nth-child(4) p:first-child {
-    flex-basis: auto;
-    margin-bottom: 0;
-  }
-
-  footer .footer-col:nth-child(4) p:not(:first-child) {
+  footer .footer-social {
     gap: 32px;
   }
 
