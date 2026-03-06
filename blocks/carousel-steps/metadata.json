@@ -1,0 +1,39 @@
+{
+  "variantName": "carousel-steps",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-03-06T19:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+    "originPage": "RAF Roles Finder - Weapon Systems Officer",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "application-steps",
+    "imagePattern": "background"
+  },
+  "contentPattern": {
+    "structure": "numbered step cards with title + stage indicator + description",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "application process steppers",
+      "numbered step-by-step carousels",
+      "process flow carousels"
+    ],
+    "notSuitableFor": [
+      "simple image carousels",
+      "testimonial carousels",
+      "content without numbered steps"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/roles/roles-finder/aircrew/weapon-systems-officer/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-06T19:46:00.000Z"
+  }
+}

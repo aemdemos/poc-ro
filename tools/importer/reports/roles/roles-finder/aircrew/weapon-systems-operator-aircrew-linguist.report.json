@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "url": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-operator-aircrew-linguist/",
+  "path": "roles/roles-finder/aircrew/weapon-systems-operator-aircrew-linguist",
+  "timestamp": "2026-03-06T22:33:50.598Z",
+  "title": "RAF Recruitment | Weapon Systems Operator - Aircrew Linguist | Royal Air Force",
+  "template": "roles-finder",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "columns-roleinfo",
+    "columns",
+    "columns",
+    "accordion",
+    "carousel-training",
+    "cards-benefits",
+    "carousel-steps",
+    "columns-cta",
+    "cards-roles",
+    "section-contact",
+    "section-contact"
+  ]
+}

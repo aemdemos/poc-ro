@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-roles",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-03-06T19:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+    "originPage": "RAF Roles Finder - Weapon Systems Officer",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "normal",
+    "purpose": "role-cards",
+    "imagePattern": "thumbnail"
+  },
+  "contentPattern": {
+    "structure": "role image + category tag + title + interest tags + link",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "similar roles/related roles sections",
+      "role listing cards with category tags",
+      "job/position card grids"
+    ],
+    "notSuitableFor": [
+      "generic content cards",
+      "icon-only card grids",
+      "cards without categorization"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/roles/roles-finder/aircrew/weapon-systems-officer/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-06T19:46:00.000Z"
+  }
+}
