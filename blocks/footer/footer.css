@@ -1,20 +1,202 @@
+/* RAF Recruitment Footer */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: var(--color-brand-primary, #003b74);
+  color: var(--color-white, #fff);
+  font-size: var(--body-font-size-s, 14px);
+  font-family: var(--body-font-family);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  max-width: 1440px;
+  padding: 0 24px;
 }
 
+/* General element styles (lowest specificity first) */
 footer .footer p {
   margin: 0;
 }
 
+footer .footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer li {
+  margin-bottom: 24px;
+}
+
+footer .footer a:any-link {
+  color: var(--color-white, #fff);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 14px;
+  transition: opacity 0.2s ease;
+}
+
+footer .footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+/* Navigation columns layout - 2 col mobile */
+footer .footer-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  padding: 48px 0;
+}
+
+footer .footer-col:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+footer .footer-col:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+footer .footer-col:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+/* RAF logo section */
+footer .footer-logo {
+  padding: 24px 0;
+  display: none;
+}
+
+footer .footer-logo img {
+  max-width: 100px;
+  height: auto;
+}
+
+/* Bottom bar */
+footer .footer-bottom {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer .footer-bottom ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+footer .footer-bottom li {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+footer .footer-bottom a:any-link {
+  font-size: 12px;
+}
+
+footer .footer-bottom p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Logos and social section (4th column) - spans full width on mobile */
+footer .footer-col:nth-child(4) {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 32px 0 44px;
+}
+
+footer .footer-col:nth-child(4) p {
+  margin: 0;
+}
+
+/* Top 100 badge */
+footer .footer-badge {
+  display: flex;
+  justify-content: center;
+}
+
+footer .footer-badge img {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+
+/* Social media links */
+footer .footer-social {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .footer-social a:any-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+footer .footer-social img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Primary nav links (first 4 items in first column) - uppercase */
+footer .footer-col:first-child li:nth-child(-n+4) a {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 40px 32px 24px;
+    padding: 80px 58px 104px;
+  }
+
+  footer .footer-nav {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 0;
+  }
+
+  footer .footer-col:nth-child(1),
+  footer .footer-col:nth-child(2),
+  footer .footer-col:nth-child(3),
+  footer .footer-col:nth-child(4) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  footer .footer-col:nth-child(4) {
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  footer .footer-social {
+    gap: 32px;
+  }
+
+  footer .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    text-align: end;
+  }
+
+  footer .footer-bottom ul {
+    gap: 24px;
+  }
+
+  footer .footer-bottom li {
+    flex: 0 0 auto;
+    text-align: start;
   }
 }
