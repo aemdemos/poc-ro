@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-roleinfo",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-03-06T19:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+    "originPage": "RAF Roles Finder - Weapon Systems Officer",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "purpose": "role-details",
+    "imagePattern": "none"
+  },
+  "contentPattern": {
+    "structure": "status + tags + salary tiers + description + CTA | navigation links",
+    "buttonCount": 2,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "role detail pages with salary and recruitment info",
+      "structured data panels with multiple data points",
+      "role info sections with in-page navigation"
+    ],
+    "notSuitableFor": [
+      "simple text + image columns",
+      "generic two-column layouts",
+      "content without structured data"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/roles/roles-finder/aircrew/weapon-systems-officer/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-06T19:46:00.000Z"
+  }
+}
