@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -136,22 +119,36 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/columns-dualpanel.js
-  function parse3(element, { document }) {
-    const textSection = element.querySelector(".dualpanelblue-textsection");
-    const heading = element.querySelector(".dualpanelblue-textsection-title") || element.querySelector("h3, h2");
-    const bodyText = element.querySelector(".dualpanelblue-textsection-text");
-    const image = element.querySelector(".dualpanelblue-image") || element.querySelector(".imagesection img") || element.querySelector("img");
+  function extractRow(container) {
+    const textSection = container.querySelector(".dualpanelblue-textsection");
+    const heading = container.querySelector(".dualpanelblue-textsection-title") || container.querySelector("h3, h2");
+    const bodyText = container.querySelector(".dualpanelblue-textsection-text");
+    const image = container.querySelector(".dualpanelblue-image") || container.querySelector(".imagesection img") || container.querySelector("img");
     const textCell = [];
     if (heading) textCell.push(heading);
     if (bodyText) textCell.push(bodyText);
     const imageCell = image ? [image] : [];
     const textParent = textSection ? textSection.closest(".dualpanelblue-half") : null;
     const textOnRight = textParent && textParent.classList.contains("right");
-    const cells = [];
     if (textOnRight) {
-      cells.push([imageCell, textCell]);
-    } else {
-      cells.push([textCell, imageCell]);
+      return [imageCell, textCell];
+    }
+    return [textCell, imageCell];
+  }
+  function parse3(element, { document }) {
+    if (element.dataset.consumed === "true") {
+      element.remove();
+      return;
+    }
+    const cells = [];
+    cells.push(extractRow(element));
+    let sibling = element.nextElementSibling;
+    while (sibling && !sibling.classList.contains("dualpanelblue-container")) {
+      sibling = sibling.nextElementSibling;
+    }
+    if (sibling && sibling.classList.contains("dualpanelblue-container")) {
+      cells.push(extractRow(sibling));
+      sibling.dataset.consumed = "true";
     }
     const block = WebImporter.Blocks.createBlock(document, { name: "Columns", cells });
     element.replaceWith(block);
@@ -213,15 +210,13 @@ var CustomImportScript = (() => {
     const slides = element.querySelectorAll(".training-slide");
     const cells = [];
     slides.forEach((slide) => {
-      const slideImage = slide.querySelector(".training-slide-moredetails-image");
-      const imageCell = slideImage ? [slideImage] : [];
-      const contentCell = [];
+      const slideCell = [];
       const counter = slide.querySelector(".training-slide-header-count");
       const title = slide.querySelector(".training-slide-header-title") || slide.querySelector("h3");
       if (title) {
         const h3 = document.createElement("h3");
         h3.textContent = (counter ? counter.textContent.trim() + " - " : "") + title.textContent.trim();
-        contentCell.push(h3);
+        slideCell.push(h3);
       }
       const subtitle = slide.querySelector(".training-slide-subheader");
       if (subtitle) {
@@ -229,37 +224,64 @@ var CustomImportScript = (() => {
         const em = document.createElement("em");
         em.textContent = subtitle.textContent.trim();
         p.appendChild(em);
-        contentCell.push(p);
+        slideCell.push(p);
       }
-      const durationEl = slide.querySelector(".training-slide-details-left");
-      if (durationEl) {
-        const durationSpan = durationEl.querySelector("span");
-        if (durationSpan && durationSpan.textContent.trim()) {
+      const durationDiv = slide.querySelector(".training-slide-details-left");
+      if (durationDiv) {
+        const durationText = durationDiv.textContent.trim();
+        if (durationText) {
           const p = document.createElement("p");
-          p.textContent = "Duration: " + durationSpan.textContent.trim();
-          contentCell.push(p);
+          p.textContent = durationText;
+          slideCell.push(p);
         }
       }
-      const locationEl = slide.querySelector(".training-slide-details-right");
-      if (locationEl) {
-        const locationSpan = locationEl.querySelector("span");
-        if (locationSpan && locationSpan.textContent.trim()) {
+      const locationDiv = slide.querySelector(".training-slide-details-right");
+      if (locationDiv) {
+        const locationText = locationDiv.textContent.trim();
+        if (locationText) {
           const p = document.createElement("p");
-          p.textContent = "Location: " + locationSpan.textContent.trim();
-          contentCell.push(p);
+          p.textContent = locationText;
+          slideCell.push(p);
         }
       }
       const text = slide.querySelector(".training-slide-opened");
       if (text) {
-        const p = document.createElement("p");
-        const readMoreBtn = text.querySelector(".training-slide-readmore");
         const cloned = text.cloneNode(true);
         const readMoreClone = cloned.querySelector(".training-slide-readmore");
         if (readMoreClone) readMoreClone.remove();
-        p.textContent = cloned.textContent.trim();
-        contentCell.push(p);
+        const trimmed = cloned.textContent.trim();
+        if (trimmed) {
+          const p = document.createElement("p");
+          p.textContent = trimmed;
+          slideCell.push(p);
+        }
       }
-      cells.push([imageCell, contentCell]);
+      const detailsCell = [];
+      const moreDetails = slide.querySelector(".training-slide-moredetails");
+      if (moreDetails) {
+        const detailImg = moreDetails.querySelector(".training-slide-moredetails-image");
+        if (detailImg && detailImg.src) {
+          const img = document.createElement("img");
+          img.src = detailImg.src;
+          detailsCell.push(img);
+        }
+        const detailTitle = moreDetails.querySelector(".training-slide-moredetails-title");
+        if (detailTitle) {
+          const h4 = document.createElement("h4");
+          h4.textContent = detailTitle.textContent.trim();
+          detailsCell.push(h4);
+        }
+        const detailRight = moreDetails.querySelector(".training-slide-moredetails-right");
+        if (detailRight) {
+          const detailPara = detailRight.querySelector("p");
+          if (detailPara) {
+            const p = document.createElement("p");
+            p.textContent = detailPara.textContent.trim();
+            detailsCell.push(p);
+          }
+        }
+      }
+      cells.push([slideCell, detailsCell]);
     });
     const block = WebImporter.Blocks.createBlock(document, { name: "Carousel Training", cells });
     fragment.appendChild(block);
@@ -567,6 +589,14 @@ var CustomImportScript = (() => {
   };
   function transform(hookName, element, payload) {
     if (hookName === TransformHook.beforeTransform) {
+      WebImporter.DOMUtils.remove(element, ["header"]);
+      WebImporter.DOMUtils.remove(element, ["footer"]);
+      WebImporter.DOMUtils.remove(element, ["#onetrust-consent-sdk", "#onetrust-pc-sdk", ".onetrust-pc-dark-filter"]);
+      const trackingImgs = element.querySelectorAll('img[src*="t.co/i/adsct"], img[src*="analytics.twitter.com"]');
+      trackingImgs.forEach((img) => img.remove());
+      const trackingLinks = element.querySelectorAll('a[href*="t.co/i/adsct"], a[href*="analytics.twitter.com"]');
+      trackingLinks.forEach((a) => a.remove());
+      WebImporter.DOMUtils.remove(element, [".favourites-floating-button"]);
       WebImporter.DOMUtils.remove(element, ["#hero-scroll-to"]);
       WebImporter.DOMUtils.remove(element, [".hero-video-controls"]);
       const decorativeImgs = element.querySelectorAll(
@@ -579,13 +609,30 @@ var CustomImportScript = (() => {
       WebImporter.DOMUtils.remove(element, [".cookie-banner", ".cookie-consent", "#cookie-notice"]);
       WebImporter.DOMUtils.remove(element, [".roletype-toggle-container"]);
       WebImporter.DOMUtils.remove(element, [".favourite-button"]);
-      WebImporter.DOMUtils.remove(element, [".inpagelinks"]);
       WebImporter.DOMUtils.remove(element, [".roleinfo-isopentext-dot"]);
       WebImporter.DOMUtils.remove(element, [".roleinfo-alreadyapplied"]);
       WebImporter.DOMUtils.remove(element, [".roleinfo-bonustext"]);
       WebImporter.DOMUtils.remove(element, [".owl-nav", ".owl-dots", ".owl-nav-custom"]);
     }
     if (hookName === TransformHook.afterTransform) {
+      WebImporter.DOMUtils.remove(element, ["canvas"]);
+      const consumed = element.querySelectorAll('[data-consumed="true"]');
+      consumed.forEach((el) => el.remove());
+      const unwrapSelectors = ["#raf-app", "main", ".umb-block-list"];
+      unwrapSelectors.forEach((sel) => {
+        const wrapper = element.querySelector(sel);
+        if (wrapper) {
+          while (wrapper.firstChild) {
+            wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
+          }
+          wrapper.remove();
+        }
+      });
+      element.querySelectorAll("div").forEach((div) => {
+        if (!div.className && !div.id && div.children.length === 0 && !div.textContent.trim()) {
+          div.remove();
+        }
+      });
       WebImporter.DOMUtils.remove(element, [
         "iframe",
         "link",
@@ -648,8 +695,8 @@ var CustomImportScript = (() => {
       },
       {
         name: "columns",
-        instances: [".dualpanelblue-container.topspacer", ".dualpanelblue-container.bottomspacer"],
-        notes: "Standard two-column text+image layouts."
+        instances: [".dualpanelblue-container.topspacer"],
+        notes: "Multi-row columns block. Parser auto-discovers sibling container for row 2."
       },
       {
         name: "accordion",
@@ -701,9 +748,10 @@ var CustomImportScript = (() => {
     ]
   };
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), {
+    const enhancedPayload = {
+      ...payload,
       template: PAGE_TEMPLATE
-    });
+    };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);

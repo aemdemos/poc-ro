@@ -57,8 +57,8 @@ const PAGE_TEMPLATE = {
     },
     {
       name: 'columns',
-      instances: ['.dualpanelblue-container.topspacer', '.dualpanelblue-container.bottomspacer'],
-      notes: 'Standard two-column text+image layouts.',
+      instances: ['.dualpanelblue-container.topspacer'],
+      notes: 'Multi-row columns block. Parser auto-discovers sibling container for row 2.',
     },
     {
       name: 'accordion',

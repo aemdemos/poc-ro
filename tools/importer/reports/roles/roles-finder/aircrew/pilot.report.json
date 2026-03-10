@@ -2,7 +2,7 @@
   "status": "success",
   "url": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/pilot/",
   "path": "roles/roles-finder/aircrew/pilot",
-  "timestamp": "2026-03-06T22:34:09.956Z",
+  "timestamp": "2026-03-10T22:56:48.138Z",
   "title": "RAF Recruitment | Pilot | Royal Air Force",
   "template": "roles-finder",
   "blocks": [
@@ -19,7 +19,6 @@
     "carousel-steps",
     "columns-cta",
     "cards-roles",
-    "section-contact",
     "section-contact"
   ]
 }

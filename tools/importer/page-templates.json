@@ -72,10 +72,9 @@
         {
           "name": "columns",
           "instances": [
-            ".dualpanelblue-container.topspacer",
-            ".dualpanelblue-container.bottomspacer"
+            ".dualpanelblue-container.topspacer"
           ],
-          "notes": "Standard two-column text+image layouts. First instance: text-left/image-right (What will you do?). Second instance: image-left/text-right (Requirements at a glance)."
+          "notes": "Multi-row columns block. Parser finds .topspacer then automatically discovers next sibling .dualpanelblue-container (bottomspacer or unstyled) for row 2."
         },
         {
           "name": "accordion",

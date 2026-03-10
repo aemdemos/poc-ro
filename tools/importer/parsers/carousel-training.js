@@ -7,56 +7,24 @@
  * Source: https://recruitment.raf.mod.uk/roles/...
  * Base Block: carousel
  *
- * Block Structure:
- * - One row per training slide: image (if available) | content (title + description)
+ * Block Structure (per slide row, two columns):
+ * - Col 1: count + title (h3), subheader (em), duration, location, description
+ * - Col 2: more-details image, title (h4), paragraph
  *
- * Source HTML Pattern:
- * <div class="training-container">
- *   <div class="hero-container"><h2 class="header-text">...</h2></div>
- *   <div class="training-text">intro text</div>
- *   <div class="training-slides owl-loaded">
- *     <div class="training-slide">
- *       <div class="training-slide-wrapper">
- *         <div class="training-slide-header">
- *           <div class="training-slide-header-contents">
- *             <div class="training-slide-header-count">01</div>
- *             <h3 class="training-slide-header-title"><span>Phase one training</span></h3>
- *           </div>
- *         </div>
- *         <div class="training-slide-subheader">Initial Officer training</div>
- *         <div class="training-slide-details">
- *           <div class="training-slide-details-left"><img>24 weeks</div>
- *           <div class="training-slide-details-right"><img>RAF Cranwell</div>
- *         </div>
- *         <div class="training-slide-opened">description text</div>
- *       </div>
- *       <div class="training-slide-moredetails">
- *         <div class="training-slide-moredetails-left">
- *           <img class="training-slide-moredetails-image" src="...">
- *         </div>
- *         <div class="training-slide-moredetails-right">
- *           <h4>Phase one training</h4>
- *           <div><p>detailed description</p></div>
- *         </div>
- *       </div>
- *     </div>
- *     ...
- *   </div>
- * </div>
- *
- * Output Structure (EDS markdown):
- * ## Heading                                    <-- free h2
- * <intro paragraph>                             <-- free paragraph
- * [Carousel Training block table]               <-- slide rows
- * Section Metadata: dark                        <-- section metadata table
+ * Output Structure (EDS):
+ * ## Heading
+ * <intro paragraph>
+ * [Carousel Training block table]
+ *   Row per slide: [slide text] | [more-details content]
+ * Section Metadata: dark
  *
  * Generated: 2026-03-06
+ * Updated: 2026-03-10 - Added second column for more-details content
  */
 export default function parse(element, { document }) {
   const fragment = document.createDocumentFragment();
 
   // --- Section heading (h2) ---
-  // VALIDATED: Source has h2.header-text inside .hero-container within .training-container
   const heading = element.querySelector('.hero-container h2') ||
     element.querySelector('h2');
   if (heading) {
@@ -66,7 +34,6 @@ export default function parse(element, { document }) {
   }
 
   // --- Intro paragraph ---
-  // VALIDATED: Source has .training-text div with intro content
   const intro = element.querySelector('.training-text');
   if (intro) {
     const p = document.createElement('p');
@@ -75,76 +42,99 @@ export default function parse(element, { document }) {
   }
 
   // --- Carousel Training block table ---
-  // VALIDATED: Source has .training-slides containing .training-slide items
   const slides = element.querySelectorAll('.training-slide');
   const cells = [];
 
   slides.forEach((slide) => {
-    // Extract image from .training-slide-moredetails-image
-    const slideImage = slide.querySelector('.training-slide-moredetails-image');
-    const imageCell = slideImage ? [slideImage] : [];
+    // === Column 1: Slide card content (no images, no nav icons) ===
+    const slideCell = [];
 
-    // Build content cell
-    const contentCell = [];
-
-    // Slide counter from .training-slide-header-count
+    // Count + Title as h3
     const counter = slide.querySelector('.training-slide-header-count');
-
-    // Slide title from h3.training-slide-header-title
     const title = slide.querySelector('.training-slide-header-title') ||
       slide.querySelector('h3');
     if (title) {
       const h3 = document.createElement('h3');
       h3.textContent = (counter ? counter.textContent.trim() + ' - ' : '') + title.textContent.trim();
-      contentCell.push(h3);
+      slideCell.push(h3);
     }
 
-    // Subtitle from .training-slide-subheader
+    // Subheader
     const subtitle = slide.querySelector('.training-slide-subheader');
     if (subtitle) {
       const p = document.createElement('p');
       const em = document.createElement('em');
       em.textContent = subtitle.textContent.trim();
       p.appendChild(em);
-      contentCell.push(p);
+      slideCell.push(p);
     }
 
-    // Duration metadata from .training-slide-details-left span
-    const durationEl = slide.querySelector('.training-slide-details-left');
-    if (durationEl) {
-      const durationSpan = durationEl.querySelector('span');
-      if (durationSpan && durationSpan.textContent.trim()) {
+    // Duration - use div textContent directly (Helix Importer strips <span> tags)
+    const durationDiv = slide.querySelector('.training-slide-details-left');
+    if (durationDiv) {
+      const durationText = durationDiv.textContent.trim();
+      if (durationText) {
         const p = document.createElement('p');
-        p.textContent = 'Duration: ' + durationSpan.textContent.trim();
-        contentCell.push(p);
+        p.textContent = durationText;
+        slideCell.push(p);
       }
     }
 
-    // Location metadata from .training-slide-details-right span
-    const locationEl = slide.querySelector('.training-slide-details-right');
-    if (locationEl) {
-      const locationSpan = locationEl.querySelector('span');
-      if (locationSpan && locationSpan.textContent.trim()) {
+    // Location - use div textContent directly (Helix Importer strips <span> tags)
+    const locationDiv = slide.querySelector('.training-slide-details-right');
+    if (locationDiv) {
+      const locationText = locationDiv.textContent.trim();
+      if (locationText) {
         const p = document.createElement('p');
-        p.textContent = 'Location: ' + locationSpan.textContent.trim();
-        contentCell.push(p);
+        p.textContent = locationText;
+        slideCell.push(p);
       }
     }
 
-    // Description text from .training-slide-opened
+    // Description text (exclude "Read more" button)
     const text = slide.querySelector('.training-slide-opened');
     if (text) {
-      const p = document.createElement('p');
-      // Get text content but exclude the "Read more" button text
-      const readMoreBtn = text.querySelector('.training-slide-readmore');
       const cloned = text.cloneNode(true);
       const readMoreClone = cloned.querySelector('.training-slide-readmore');
       if (readMoreClone) readMoreClone.remove();
-      p.textContent = cloned.textContent.trim();
-      contentCell.push(p);
+      const trimmed = cloned.textContent.trim();
+      if (trimmed) {
+        const p = document.createElement('p');
+        p.textContent = trimmed;
+        slideCell.push(p);
+      }
     }
 
-    cells.push([imageCell, contentCell]);
+    // === Column 2: More-details content (image, title, paragraph) ===
+    const detailsCell = [];
+    const moreDetails = slide.querySelector('.training-slide-moredetails');
+    if (moreDetails) {
+      const detailImg = moreDetails.querySelector('.training-slide-moredetails-image');
+      if (detailImg && detailImg.src) {
+        const img = document.createElement('img');
+        img.src = detailImg.src;
+        detailsCell.push(img);
+      }
+
+      const detailTitle = moreDetails.querySelector('.training-slide-moredetails-title');
+      if (detailTitle) {
+        const h4 = document.createElement('h4');
+        h4.textContent = detailTitle.textContent.trim();
+        detailsCell.push(h4);
+      }
+
+      const detailRight = moreDetails.querySelector('.training-slide-moredetails-right');
+      if (detailRight) {
+        const detailPara = detailRight.querySelector('p');
+        if (detailPara) {
+          const p = document.createElement('p');
+          p.textContent = detailPara.textContent.trim();
+          detailsCell.push(p);
+        }
+      }
+    }
+
+    cells.push([slideCell, detailsCell]);
   });
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'Carousel Training', cells });

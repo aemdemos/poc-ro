@@ -10,6 +10,8 @@
  * Updated: 2026-03-06 - Added cleanup for roles-finder page elements:
  *   roletype toggle, favourite buttons, bookmark icons, Owl Carousel navigation,
  *   accordion chevrons, in-page nav links, and additional data attributes
+ * Updated: 2026-03-09 - Strip site header, footer, OneTrust cookie consent, and
+ *   floating favourites button so only main content is imported
  *
  * SELECTORS EXTRACTED FROM:
  * - Captured DOM during migration workflow of https://recruitment.raf.mod.uk/
@@ -23,6 +25,36 @@ const TransformHook = {
 
 export default function transform(hookName, element, payload) {
   if (hookName === TransformHook.beforeTransform) {
+    // --- Site-wide structural removal (header, footer, cookie consent) ---
+
+    // Remove site header/navigation (EDS uses its own nav from nav.html)
+    // EXTRACTED: <header> wraps logo, hamburger menu, nav links, search, contact block
+    WebImporter.DOMUtils.remove(element, ['header']);
+
+    // Remove site footer (EDS uses its own footer from footer.html)
+    // EXTRACTED: <footer> wraps nav link lists, social icons, copyright, sitemap links
+    WebImporter.DOMUtils.remove(element, ['footer']);
+
+    // Remove OneTrust cookie consent SDK (banner, preference center, overlays)
+    // EXTRACTED: <div id="onetrust-consent-sdk"> wraps cookie banner dialog and preferences
+    WebImporter.DOMUtils.remove(element, ['#onetrust-consent-sdk', '#onetrust-pc-sdk', '.onetrust-pc-dark-filter']);
+
+    // Remove Twitter/X analytics tracking pixels (invisible 1x1 images)
+    // EXTRACTED: <img src="https://t.co/i/adsct..."> and <img src="https://analytics.twitter.com/...">
+    const trackingImgs = element.querySelectorAll('img[src*="t.co/i/adsct"], img[src*="analytics.twitter.com"]');
+    trackingImgs.forEach((img) => img.remove());
+
+    // Remove anchor tags wrapping tracking pixel URLs (t.co/i/adsct, analytics.twitter.com)
+    // These sometimes appear as <a href="https://t.co/i/adsct?..."> wrapping <img> or text nodes
+    const trackingLinks = element.querySelectorAll('a[href*="t.co/i/adsct"], a[href*="analytics.twitter.com"]');
+    trackingLinks.forEach((a) => a.remove());
+
+    // Remove floating favourites button (site-wide interactive widget)
+    // EXTRACTED: <a class="favourites-floating-button"> at bottom of page
+    WebImporter.DOMUtils.remove(element, ['.favourites-floating-button']);
+
+    // --- Element-level cleanup ---
+
     // Remove hero scroll-to anchor element (empty div used for JS scrolling)
     // EXTRACTED: Found <div id="hero-scroll-to"></div> in captured DOM
     WebImporter.DOMUtils.remove(element, ['#hero-scroll-to']);
@@ -64,9 +96,8 @@ export default function transform(hookName, element, payload) {
     // EXTRACTED: Found <button class="favourite-button"> in roleinfo and carousel30 sections
     WebImporter.DOMUtils.remove(element, ['.favourite-button']);
 
-    // Remove in-page anchor navigation links (JS scroll behavior, not real content)
-    // EXTRACTED: Found <div class="roleinfo-intro-body inpagelinks"> with anchor links
-    WebImporter.DOMUtils.remove(element, ['.inpagelinks']);
+    // NOTE: .inpagelinks is preserved — the columns-roleinfo parser extracts
+    // "On this page:" nav links from .roleinfo-intro-body.inpagelinks
 
     // Remove decorative dot indicator next to recruiting status text
     // EXTRACTED: Found <div class="roleinfo-isopentext-dot"></div> in role info section
@@ -86,6 +117,38 @@ export default function transform(hookName, element, payload) {
   }
 
   if (hookName === TransformHook.afterTransform) {
+    // --- Strip page-level wrapper elements ---
+    // The original page wraps content in <canvas>, <div id="raf-app">, <main>,
+    // <div>, <div class="umb-block-list">. These must be unwrapped so EDS
+    // receives flat content (tables become div-based blocks via the server).
+
+    // Remove canvas elements (FlashingLights animation)
+    WebImporter.DOMUtils.remove(element, ['canvas']);
+
+    // Remove elements marked as consumed by parsers but not cleaned up
+    const consumed = element.querySelectorAll('[data-consumed="true"]');
+    consumed.forEach((el) => el.remove());
+
+    // Unwrap structural containers in order (outermost to innermost)
+    const unwrapSelectors = ['#raf-app', 'main', '.umb-block-list'];
+    unwrapSelectors.forEach((sel) => {
+      const wrapper = element.querySelector(sel);
+      if (wrapper) {
+        while (wrapper.firstChild) {
+          wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
+        }
+        wrapper.remove();
+      }
+    });
+
+    // Remove anonymous empty divs left after unwrapping (no class, no id, no content)
+    element.querySelectorAll('div').forEach((div) => {
+      if (!div.className && !div.id && div.children.length === 0
+        && !div.textContent.trim()) {
+        div.remove();
+      }
+    });
+
     // Remove remaining iframes and non-content elements
     WebImporter.DOMUtils.remove(element, [
       'iframe',

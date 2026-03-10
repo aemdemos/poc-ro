@@ -1,73 +1,66 @@
 import { fetchPlaceholders } from '../../scripts/placeholders.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-function updateActiveSlide(slide) {
-  const block = slide.closest('.carousel-training');
-  const slideIndex = parseInt(slide.dataset.slideIndex, 10);
-  block.dataset.activeSlide = slideIndex;
+function showDetails(block, slideIndex) {
+  const detailPanel = block.querySelector('.carousel-training-detail-panel');
+  if (!detailPanel) return;
 
-  const slides = block.querySelectorAll('.carousel-training-slide');
-
-  slides.forEach((aSlide, idx) => {
-    aSlide.setAttribute('aria-hidden', idx !== slideIndex);
-    aSlide.querySelectorAll('a').forEach((link) => {
-      if (idx !== slideIndex) {
-        link.setAttribute('tabindex', '-1');
-      } else {
-        link.removeAttribute('tabindex');
-      }
-    });
+  const details = detailPanel.querySelectorAll('.carousel-training-detail');
+  details.forEach((detail, idx) => {
+    detail.hidden = idx !== slideIndex;
   });
 
-  const indicators = block.querySelectorAll('.carousel-training-slide-indicator');
-  indicators.forEach((indicator, idx) => {
-    if (idx !== slideIndex) {
-      indicator.querySelector('button').removeAttribute('disabled');
-    } else {
-      indicator.querySelector('button').setAttribute('disabled', 'true');
-    }
-  });
+  detailPanel.hidden = false;
+  block.classList.add('detail-open');
 }
 
-export function showSlide(block, slideIndex = 0) {
-  const slides = block.querySelectorAll('.carousel-training-slide');
-  let realSlideIndex = slideIndex < 0 ? slides.length - 1 : slideIndex;
-  if (slideIndex >= slides.length) realSlideIndex = 0;
-  const activeSlide = slides[realSlideIndex];
+function hideDetails(block) {
+  const detailPanel = block.querySelector('.carousel-training-detail-panel');
+  if (detailPanel) detailPanel.hidden = true;
+  block.classList.remove('detail-open');
 
-  activeSlide.querySelectorAll('a').forEach((link) => link.removeAttribute('tabindex'));
-  block.querySelector('.carousel-training-slides').scrollTo({
-    top: 0,
-    left: activeSlide.offsetLeft,
-    behavior: 'smooth',
+  block.querySelectorAll('.carousel-training-slide').forEach((slide) => {
+    slide.classList.remove('active');
   });
 }
 
 function bindEvents(block) {
-  const slideIndicators = block.querySelector('.carousel-training-slide-indicators');
-  if (!slideIndicators) return;
+  const slidesWrapper = block.querySelector('.carousel-training-slides');
+  const firstSlide = block.querySelector('.carousel-training-slide');
+  if (!firstSlide) return;
 
-  slideIndicators.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-      const slideIndicator = e.currentTarget.parentElement;
-      showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
+  const getSlideStep = () => {
+    const gap = parseInt(getComputedStyle(slidesWrapper).gap, 10) || 0;
+    return firstSlide.offsetWidth + gap;
+  };
+
+  block.querySelector('.slide-prev')?.addEventListener('click', () => {
+    slidesWrapper.scrollBy({ left: -getSlideStep(), behavior: 'smooth' });
+  });
+  block.querySelector('.slide-next')?.addEventListener('click', () => {
+    slidesWrapper.scrollBy({ left: getSlideStep(), behavior: 'smooth' });
+  });
+
+  // Read more links
+  block.querySelectorAll('.carousel-training-readmore').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const slide = link.closest('.carousel-training-slide');
+      const idx = parseInt(slide.dataset.slideIndex, 10);
+      const wasActive = slide.classList.contains('active');
+
+      // Deactivate all slides
+      block.querySelectorAll('.carousel-training-slide').forEach((s) => {
+        s.classList.remove('active');
+      });
+
+      if (wasActive) {
+        hideDetails(block);
+      } else {
+        slide.classList.add('active');
+        showDetails(block, idx);
+      }
     });
-  });
-
-  block.querySelector('.slide-prev').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
-  });
-  block.querySelector('.slide-next').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
-  });
-
-  const slideObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) updateActiveSlide(entry.target);
-    });
-  }, { threshold: 0.5 });
-  block.querySelectorAll('.carousel-training-slide').forEach((slide) => {
-    slideObserver.observe(slide);
   });
 }
 
@@ -77,10 +70,20 @@ function createSlide(row, slideIndex, carouselId) {
   slide.setAttribute('id', `carousel-training-${carouselId}-slide-${slideIndex}`);
   slide.classList.add('carousel-training-slide');
 
-  row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
-    column.classList.add(`carousel-training-slide-${colIdx === 0 ? 'image' : 'content'}`);
-    slide.append(column);
-  });
+  // First column is the slide card content
+  const columns = row.querySelectorAll(':scope > div');
+  const cardColumn = columns[0];
+  if (cardColumn) {
+    cardColumn.classList.add('carousel-training-slide-content');
+    slide.append(cardColumn);
+  }
+
+  // Add "Read more" link at the bottom of the slide
+  const readMore = document.createElement('a');
+  readMore.href = '#';
+  readMore.classList.add('carousel-training-readmore');
+  readMore.textContent = 'Read more';
+  slide.append(readMore);
 
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
@@ -90,11 +93,52 @@ function createSlide(row, slideIndex, carouselId) {
   return slide;
 }
 
+function createDetailPanel(rows) {
+  const panel = document.createElement('div');
+  panel.classList.add('carousel-training-detail-panel');
+  panel.hidden = true;
+
+  rows.forEach((row, idx) => {
+    const columns = row.querySelectorAll(':scope > div');
+    const detailColumn = columns[1];
+
+    const detail = document.createElement('div');
+    detail.classList.add('carousel-training-detail');
+    detail.hidden = idx !== 0;
+
+    if (detailColumn) {
+      // Extract image, h4, and text paragraph from the details column
+      // Structure: <p><img></p> <h4>title</h4> <p>text</p>
+      const img = detailColumn.querySelector('img');
+      const h4 = detailColumn.querySelector('h4');
+      // Get the paragraph after the h4 (skip the one wrapping the img)
+      const p = h4 ? h4.nextElementSibling : null;
+
+      if (img) {
+        const imgWrap = document.createElement('div');
+        imgWrap.classList.add('carousel-training-detail-image');
+        imgWrap.append(img);
+        detail.append(imgWrap);
+      }
+
+      const textWrap = document.createElement('div');
+      textWrap.classList.add('carousel-training-detail-text');
+      if (h4) textWrap.append(h4);
+      if (p && p.tagName === 'P') textWrap.append(p);
+      detail.append(textWrap);
+    }
+
+    panel.append(detail);
+  });
+
+  return panel;
+}
+
 let carouselId = 0;
 export default async function decorate(block) {
   carouselId += 1;
   block.setAttribute('id', `carousel-training-${carouselId}`);
-  const rows = block.querySelectorAll(':scope > div');
+  const rows = [...block.querySelectorAll(':scope > div')];
   const isSingleSlide = rows.length < 2;
 
   const placeholders = await fetchPlaceholders();
@@ -109,6 +153,9 @@ export default async function decorate(block) {
   slidesWrapper.classList.add('carousel-training-slides');
   block.prepend(slidesWrapper);
 
+  // Build detail panel from second columns before rows are removed
+  const detailPanel = createDetailPanel(rows);
+
   let slideIndicators;
   if (!isSingleSlide) {
     const slideIndicatorsNav = document.createElement('nav');
@@ -118,14 +165,21 @@ export default async function decorate(block) {
     slideIndicatorsNav.append(slideIndicators);
     block.append(slideIndicatorsNav);
 
+    // Navigation bar: detail panel + nav buttons
+    const navBar = document.createElement('div');
+    navBar.classList.add('carousel-training-nav-bar');
+
+    navBar.append(detailPanel);
+
     const slideNavButtons = document.createElement('div');
     slideNavButtons.classList.add('carousel-training-navigation-buttons');
     slideNavButtons.innerHTML = `
       <button type="button" class="slide-prev" aria-label="${placeholders.previousSlide || 'Previous Slide'}"></button>
       <button type="button" class="slide-next" aria-label="${placeholders.nextSlide || 'Next Slide'}"></button>
     `;
+    navBar.append(slideNavButtons);
 
-    container.append(slideNavButtons);
+    block.append(navBar);
   }
 
   rows.forEach((row, idx) => {
