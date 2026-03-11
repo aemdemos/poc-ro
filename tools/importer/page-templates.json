@@ -2,34 +2,142 @@
   "templates": [
     {
       "name": "raf-homepage",
-      "urls": ["https://recruitment.raf.mod.uk/"],
+      "urls": [
+        "https://recruitment.raf.mod.uk/"
+      ],
       "description": "RAF Recruitment homepage with hero video, apprenticeships video embed, dual-panel CTA sections, diversity text section, and contact banner",
       "blocks": [
         {
           "name": "hero-video",
-          "instances": [".hero-container"]
+          "instances": [
+            ".hero-container"
+          ]
         },
         {
           "name": "embed-featured",
           "section": "apprenticeships",
-          "instances": [".videosingle"],
+          "instances": [
+            ".videosingle"
+          ],
           "notes": "Parser also extracts h2 heading, h3 subtitle, description text, and CTA link from within .videosingle and adjacent .apprenticeships-cta-container. Section style 'apprenticeships' applies italic rotated h2, full-width embed, and custom h3/button styling."
         },
         {
           "name": "columns-cta",
-          "instances": [".dual-panel-section"]
+          "instances": [
+            ".dual-panel-section"
+          ]
         },
         {
           "name": "section-diversity",
           "section": "dark, diversity",
-          "instances": [".singlepanel-section"],
+          "instances": [
+            ".singlepanel-section"
+          ],
           "notes": "Section style 'diversity' applies italic rotated headings and renders the CTA link as a 67px circle arrow icon via CSS background-image."
         },
         {
           "name": "section-contact",
           "section": "dark",
-          "instances": [".banner-container"],
+          "instances": [
+            ".banner-container"
+          ],
           "notes": "Dark section with centered heading, subtitle, and two CTA buttons (Live Chat + Contact Us) displayed side-by-side."
+        }
+      ]
+    },
+    {
+      "name": "roles-finder",
+      "urls": [
+        "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+        "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-operator/",
+        "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-operator-aircrew-linguist/",
+        "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/pilot/"
+      ],
+      "description": "RAF role detail page with hero image, role info panel (salary, status, tags), dual-panel text+image sections, entry requirements accordion, training carousel, benefits grid, application process steps, apply CTA, similar roles cards, and contact banner",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".hero-container"
+          ],
+          "notes": "Simple hero with H1 title and background image. No video, no body text."
+        },
+        {
+          "name": "columns-roleinfo",
+          "instances": [
+            ".roleinfo-outer"
+          ],
+          "notes": "Custom structured layout with recruiting status, interest tags, dual salary tiers (initial + after 3 years), role description, Apply CTA, and in-page navigation links."
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".dualpanelblue-container.topspacer"
+          ],
+          "notes": "Multi-row columns block. Parser finds .topspacer then automatically discovers next sibling .dualpanelblue-container (bottomspacer or unstyled) for row 2."
+        },
+        {
+          "name": "accordion",
+          "section": "light-blue",
+          "instances": [
+            ".accordion-container"
+          ],
+          "notes": "Entry requirements with 7 expandable panels (Education, Nationality, Fitness, Swimming, Health, Background Checks, Disqualifying Factors). H2 heading and subheader above accordion. Light blue background (rgb(205,225,255))."
+        },
+        {
+          "name": "carousel-training",
+          "section": "dark",
+          "instances": [
+            ".training-container"
+          ],
+          "notes": "6 numbered training phase cards (Phase one through Transferable skills) with subtitle, duration icon, location icon, and expandable description. Dark navy background with prev/next navigation."
+        },
+        {
+          "name": "section-whyjoin-officer",
+          "section": "dark",
+          "instances": [
+            ".singlepanel-section"
+          ],
+          "notes": "Default content section: H2 heading, paragraph, and Discover more CTA link. Dark navy background, centered text."
+        },
+        {
+          "name": "cards-benefits",
+          "section": "light-blue",
+          "instances": [
+            ".benefits-container"
+          ],
+          "notes": "6 benefit icon+label cards (Rent, Free gym, Subsidised food, Health care, World travel, Training). H2 heading, subtitle, and View all benefits CTA. Light blue background."
+        },
+        {
+          "name": "carousel-steps",
+          "section": "dark",
+          "instances": [
+            ".applicationprocess-container"
+          ],
+          "notes": "7 numbered application step cards (Aptitude test through Offer of service) with stage indicators and rich text descriptions. Dark background with background images per step."
+        },
+        {
+          "name": "columns-cta",
+          "instances": [
+            ".dual-panel-section"
+          ],
+          "notes": "Apply Now CTA section: H2 heading, text, and Apply button on left; large image on right. Reuses existing columns-cta variant from homepage."
+        },
+        {
+          "name": "cards-roles",
+          "section": "light-blue",
+          "instances": [
+            ".carousel30"
+          ],
+          "notes": "Similar roles card carousel with role cards showing category, title, interest tags, and favourites button. Light blue background with prev/next navigation and 'Roles in the RAF' link."
+        },
+        {
+          "name": "section-contact",
+          "section": "dark",
+          "instances": [
+            ".banner-container"
+          ],
+          "notes": "Dark banner with H2 heading and two CTA buttons (Live Chat + Contact Us). Same pattern as homepage contact section."
         }
       ]
     }

@@ -1,0 +1,201 @@
+.carousel-training .carousel-training-slides-container {
+  position: relative;
+}
+
+.carousel-training .carousel-training-slides,
+.carousel-training .carousel-training-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-training .carousel-training-slides {
+  display: flex;
+  gap: 16px;
+  overflow: auto hidden;
+  scroll-behavior: smooth;
+}
+
+.carousel-training .carousel-training-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-training .carousel-training-slide {
+  flex: 0 0 264px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 264px;
+  height: 449px;
+}
+
+.carousel-training .carousel-training-slide .carousel-training-slide-content {
+  flex: 1;
+  padding: 27px 20px 0;
+  color: white;
+}
+
+.carousel-training .carousel-training-slide-indicators {
+  display: none;
+}
+
+/* Read more link */
+.carousel-training .carousel-training-readmore {
+  display: block;
+  padding: 12px 20px 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.carousel-training .carousel-training-readmore::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 2px solid white;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: transform 0.2s;
+}
+
+.carousel-training .carousel-training-slide.active .carousel-training-readmore::after {
+  transform: rotate(-135deg);
+}
+
+/* Navigation bar */
+.carousel-training .carousel-training-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.carousel-training.detail-open .carousel-training-nav-bar {
+  justify-content: flex-start;
+}
+
+/* Detail panel */
+.carousel-training .carousel-training-detail-panel {
+  display: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.carousel-training.detail-open .carousel-training-detail-panel {
+  display: block;
+}
+
+.carousel-training .carousel-training-detail {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.carousel-training .carousel-training-detail[hidden] {
+  display: none;
+}
+
+.carousel-training .carousel-training-detail-left {
+  flex: 0 0 200px;
+}
+
+.carousel-training .carousel-training-detail-image {
+  /* contained within detail-left */
+}
+
+.carousel-training .carousel-training-detail-image img {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+
+/* Duration and location meta */
+.carousel-training .carousel-training-detail-meta {
+  display: flex;
+  gap: 16px;
+  color: white;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.carousel-training .carousel-training-detail-duration,
+.carousel-training .carousel-training-detail-location {
+  opacity: 0.8;
+}
+
+.carousel-training .carousel-training-detail-text {
+  flex: 1;
+  min-width: 0;
+  color: white;
+}
+
+.carousel-training .carousel-training-detail-text h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.carousel-training .carousel-training-detail-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Navigation buttons */
+.carousel-training .carousel-training-navigation-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0;
+  flex-shrink: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-training .carousel-training-navigation-buttons button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  border-radius: 50%;
+  padding: 0;
+  background-color: rgb(255 255 255 / 25%);
+  transition: background-color 0.2s;
+  color: white;
+}
+
+.carousel-training .carousel-training-navigation-buttons button:hover,
+.carousel-training .carousel-training-navigation-buttons button:focus-visible {
+  background-color: rgb(255 255 255 / 50%);
+}
+
+.carousel-training .carousel-training-navigation-buttons button::after {
+  display: block;
+  content: '';
+  border: 2px solid white;
+  border-bottom: 0;
+  border-left: 0;
+  height: 12px;
+  width: 12px;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 2px);
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-training .carousel-training-navigation-buttons button.slide-next::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+  left: calc(50% - 2px);
+}
+
+@media (width >= 600px) {
+  .carousel-training .carousel-training-slide {
+    flex: 0 0 316px;
+    width: 316px;
+  }
+}

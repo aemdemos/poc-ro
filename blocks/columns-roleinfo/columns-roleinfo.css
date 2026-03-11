@@ -1,0 +1,33 @@
+.columns-roleinfo > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-roleinfo img {
+  width: 100%;
+}
+
+.columns-roleinfo > div > div {
+  order: 1;
+}
+
+.columns-roleinfo > div > .columns-roleinfo-img-col {
+  order: 0;
+}
+
+.columns-roleinfo > div > .columns-roleinfo-img-col img {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .columns-roleinfo > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: 24px;
+  }
+
+  .columns-roleinfo > div > div {
+    flex: 1;
+    order: unset;
+  }
+}

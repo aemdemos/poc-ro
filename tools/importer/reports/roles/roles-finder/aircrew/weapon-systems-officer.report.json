@@ -1,0 +1,23 @@
+{
+  "status": "success",
+  "url": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+  "path": "roles/roles-finder/aircrew/weapon-systems-officer",
+  "timestamp": "2026-03-10T22:56:00.795Z",
+  "title": "RAF Recruitment | Weapon Systems Officer | Royal Air Force",
+  "template": "roles-finder",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "columns-roleinfo",
+    "columns",
+    "accordion",
+    "carousel-training",
+    "section-whyjoin-officer",
+    "cards-benefits",
+    "carousel-steps",
+    "columns-cta",
+    "cards-roles",
+    "section-contact"
+  ]
+}

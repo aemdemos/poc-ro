@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-benefits",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-03-06T19:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://recruitment.raf.mod.uk/roles/roles-finder/aircrew/weapon-systems-officer/",
+    "originPage": "RAF Roles Finder - Weapon Systems Officer",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "benefits-grid",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon image + label text per card",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "benefits/perks icon grids",
+      "feature highlight grids with icons",
+      "icon + label card layouts"
+    ],
+    "notSuitableFor": [
+      "content-rich cards with descriptions",
+      "cards with CTAs",
+      "image gallery cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/roles/roles-finder/aircrew/weapon-systems-officer/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-06T19:46:00.000Z"
+  }
+}
