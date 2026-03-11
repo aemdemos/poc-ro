@@ -101,14 +101,32 @@
   display: none;
 }
 
-.carousel-training .carousel-training-detail-image {
+.carousel-training .carousel-training-detail-left {
   flex: 0 0 200px;
+}
+
+.carousel-training .carousel-training-detail-image {
+  /* contained within detail-left */
 }
 
 .carousel-training .carousel-training-detail-image img {
   width: 200px;
   height: auto;
   display: block;
+}
+
+/* Duration and location meta */
+.carousel-training .carousel-training-detail-meta {
+  display: flex;
+  gap: 16px;
+  color: white;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.carousel-training .carousel-training-detail-duration,
+.carousel-training .carousel-training-detail-location {
+  opacity: 0.8;
 }
 
 .carousel-training .carousel-training-detail-text {

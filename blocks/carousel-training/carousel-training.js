@@ -106,6 +106,24 @@ function createDetailPanel(rows) {
     detail.classList.add('carousel-training-detail');
     detail.hidden = idx !== 0;
 
+    // Read duration and location from column 1 (paragraphs after em subheader)
+    const cardColumn = columns[0];
+    let duration = '';
+    let location = '';
+    if (cardColumn) {
+      const paragraphs = cardColumn.querySelectorAll('p');
+      // Structure: p>em (subheader), p (duration), p (location), p (description)
+      paragraphs.forEach((para) => {
+        const text = para.textContent.trim();
+        if (para.querySelector('em')) return; // skip subheader
+        if (!duration && text && !location) {
+          duration = text;
+        } else if (duration && !location && text) {
+          location = text;
+        }
+      });
+    }
+
     if (detailColumn) {
       // Extract image, h4, and text paragraph from the details column
       // Structure: <p><img></p> <h4>title</h4> <p>text</p>
@@ -114,12 +132,36 @@ function createDetailPanel(rows) {
       // Get the paragraph after the h4 (skip the one wrapping the img)
       const p = h4 ? h4.nextElementSibling : null;
 
+      const leftCol = document.createElement('div');
+      leftCol.classList.add('carousel-training-detail-left');
+
       if (img) {
         const imgWrap = document.createElement('div');
         imgWrap.classList.add('carousel-training-detail-image');
         imgWrap.append(img);
-        detail.append(imgWrap);
+        leftCol.append(imgWrap);
       }
+
+      // Duration and location below image
+      if (duration || location) {
+        const metaWrap = document.createElement('div');
+        metaWrap.classList.add('carousel-training-detail-meta');
+        if (duration) {
+          const d = document.createElement('span');
+          d.classList.add('carousel-training-detail-duration');
+          d.textContent = duration;
+          metaWrap.append(d);
+        }
+        if (location) {
+          const l = document.createElement('span');
+          l.classList.add('carousel-training-detail-location');
+          l.textContent = location;
+          metaWrap.append(l);
+        }
+        leftCol.append(metaWrap);
+      }
+
+      detail.append(leftCol);
 
       const textWrap = document.createElement('div');
       textWrap.classList.add('carousel-training-detail-text');
